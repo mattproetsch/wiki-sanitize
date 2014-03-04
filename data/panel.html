@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head></head>
+<body style="cursor: wait">
+<p style="text-align: left; padding-left: 100px" id="loading-text">Loading edit summaries</p>
+
+<script>
+	var load = document.getElementById("loading-text");
+	var dots = 0;
+
+	setTimeout(updateLoad, 200);
+
+	function updateLoad() {
+		if (dots == 0 || dots == 1 || dots == 2)
+			dots++;
+		else
+			dots = 0;
+		
+		var str = "Loading edit summaries";
+		for (var i = 0; i < dots; i++)
+			str += ".";
+		load.innerHTML = str;
+		setTimeout(updateLoad, 200);
+	}
+</script>
+</body>
+</html>
