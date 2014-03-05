@@ -5,7 +5,7 @@ var bgColors = {
 };
 
 var interestingEditSummaries = "";
-var interestingUserPageSections = "";
+var interestingUserPageSnippets = "";
 var interestingTalkPageSections = "";
 
 self.port.on("setInterestingEditSummaries", function(editSummariesJson) {
@@ -15,20 +15,32 @@ self.port.on("setInterestingEditSummaries", function(editSummariesJson) {
 	}
 
 	else {
-		var emitted = false;
 
 		interestingEditSummaries = "";
 		for (var i = 0; i < editSummariesJson.length; i++) {
 
 			interestingEditSummaries += "<h3 style=\"font-weight:bold; font-size: 9pt;\">"
-					+ "<span style=\"font-color:blue; text-decoration:underline; cursor:pointer;\" "
-					+ "loc='" + editSummariesJson[i].link + "'>[Edit summary]</a></h3>"
+					+ "<span style=\"color:blue; text-decoration:underline; cursor:pointer;\""
+					+ "loc='" + editSummariesJson[i].link + "'>[Edit summary]</span></h3>"
 					+ "<p style=\"font-size: 8pt;\">" + editSummariesJson[i].sum + "</p>\n";
 
 		}
 	}
 
 	buildContentView();
+});
+
+self.port.on("clearInterestingUserPageSnippets", function() {
+	interestingUserPageSnippets = "";
+});
+
+self.port.on("appendInterestingUserPageSnippets", function(snippets) {
+	for (var i = 0; i < snippets.length; i++) {
+		interestingUserPageSnippets += "<h3 style=\"font-weight:bold; font-size: 9pt\">"
+			+ "<span style=\"color: blue; text-decoration: underline; cursor: pointer;\""
+			+ "loc='https://en.wikipedia.org/wiki/User:" + snippets[i].user + "'>[User page: "
+			+ snippets[i].user + "]</span></h3><p style=\"font-size: 8pt;\">" + snippets[i].content + "</p>";
+	}
 });
 
 window.addEventListener("click", function(event) {
@@ -47,7 +59,7 @@ var buildContentView = function() {
 
 	var userPagesDiv = document.createElement("div");
 	userPagesDiv.style.backgroundColor = bgColors.userPages;
-	userPagesDiv.innerHTML = interestingUserPageSections;
+	userPagesDiv.innerHTML = interestingUserPageSnippets;
 
 	var talkPageDiv = document.createElement("div");
 	talkPageDiv.style.backgroundColor = bgColors.talkPage;
