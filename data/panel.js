@@ -34,12 +34,16 @@ self.port.on("clearInterestingUserPageSnippets", function() {
 	interestingUserPageSnippets = "";
 });
 
+self.port.on("buildContentView", function() {
+	buildContentView();
+});
+
 self.port.on("appendInterestingUserPageSnippets", function(snippets) {
-	for (var i = 0; i < snippets.length; i++) {
+	for (var i = 0; i < snippets.content.length; i++) {
 		interestingUserPageSnippets += "<h3 style=\"font-weight:bold; font-size: 9pt\">"
 			+ "<span style=\"color: blue; text-decoration: underline; cursor: pointer;\""
-			+ "loc='https://en.wikipedia.org/wiki/User:" + snippets[i].user + "'>[User page: "
-			+ snippets[i].user + "]</span></h3><p style=\"font-size: 8pt;\">" + snippets[i].content + "</p>";
+			+ "loc='https://en.wikipedia.org/wiki/User:" + snippets.user + "'>[User page: "
+			+ snippets.user + "]</span></h3><p style=\"font-size: 8pt;\">" + snippets.content[i] + "</p>";
 	}
 });
 

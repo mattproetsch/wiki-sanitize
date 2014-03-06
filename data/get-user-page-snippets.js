@@ -1,8 +1,8 @@
 self.port.on("getUserPageSnippets", function(interestingPhrases) {
-	var snippets = {
-		user: "Crisco_1492",
-		content: "I secretly work for Microsoft!"
-	};
+	var snippets = [ "This is an interesting user page snippet",
+		"This is another interesting user page snippet"
+		];
+
 	// First, go section-by-section and compare textContent of section against interestingPhrases
 	// maybe a "..." + {0, 3}interestingPhrase[i]{0, 3} + "..." sort of deal
 	try {
