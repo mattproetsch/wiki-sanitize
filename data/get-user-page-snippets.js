@@ -26,9 +26,9 @@ self.port.on("getUserPageSnippets", function(interestingPhrases) {
 // Given an RE of form "/[REGEX_MEAT]/gi", returns a regex matching the context of a match to REGEX_MEAT
 var buildContextREFrom = function(re) {
 	
-	var ctxREStr = "([\\w]+[\\s]+){0,4}";
+	var ctxREStr = "(.){0,40}";
 	ctxREStr += re;
-	ctxREStr += "([\\s]+[\\w]+){0,4}";
+	ctxREStr += "(.){0,40}";
 	
 	return new RegExp(ctxREStr, "mi");
 }

@@ -11,7 +11,8 @@ var interestingTalkPageSections = "";
 self.port.on("setInterestingEditSummaries", function(editSummariesJson) {
 
 	if (editSummariesJson.length == 0) {
-		interestingEditSummaries = "No interesting edit summaries.";
+		
+		// Do nothing
 	}
 
 	else {
@@ -19,10 +20,10 @@ self.port.on("setInterestingEditSummaries", function(editSummariesJson) {
 		interestingEditSummaries = "";
 		for (var i = 0; i < editSummariesJson.length; i++) {
 
-			interestingEditSummaries += "<h3 style=\"font-weight:bold; font-size: 9pt;\">"
+			interestingEditSummaries += "<h3 style=\"font-weight:bold; font-size:9pt;\">"
 					+ "<span style=\"color:blue; text-decoration:underline; cursor:pointer;\""
 					+ "loc='" + editSummariesJson[i].link + "'>[Edit summary]</span></h3>"
-					+ "<p style=\"font-size: 8pt;\">" + editSummariesJson[i].sum + "</p>\n";
+					+ "<p style=\"font-size:8pt;\">" + editSummariesJson[i].sum + "</p>\n";
 		}
 	}
 });
@@ -33,21 +34,24 @@ self.port.on("clearInterestingUserPageSnippets", function() {
 
 self.port.on("appendInterestingUserPageSnippets", function(snippets) {
 	for (var i = 0; i < snippets.content.length; i++) {
-		interestingUserPageSnippets += "<h3 style=\"font-weight:bold; font-size: 9pt\">"
-			+ "<span style=\"color: blue; text-decoration:underline; cursor:pointer;\""
+		interestingUserPageSnippets += "<h3 style=\"font-weight:bold; font-size:9pt;\">"
+			+ "<span style=\"color:blue; text-decoration:underline; cursor:pointer;\""
 			+ "loc='https://en.wikipedia.org/wiki/User:" + snippets.user + "'>[User page: "
-			+ snippets.user + "]</span></h3><p style=\"font-size: 8pt;\">" + snippets.content[i] + "</p>";
+			+ snippets.user + "]</span></h3><p style=\"font-size:8pt;\">..." + snippets.content[i] + "...</p>";
 	}
 });
 
 self.port.on("setInterestingTalkPageSections", function(snippets) {
+
+	if (snippets.content.length > 0) {
 	
-	interestingTalkPageSections = "<h3 style=\"font-weight:bold; font-size: 9pt\">"
-			+ "<span style=\"color:blue; text-decoration:underline; cursor:pointer;\""
-			+ "loc='https://en.wikipedia.org/wiki/Talk:" + snippets.articleName + "'>[Talk page]</span></h3>";
-			
-	for (var i = 0; i < snippets.content.length; i++) {
-		interestingTalkPageSections += "<p>" + snippets.content[i] + "</p>";
+		interestingTalkPageSections = "<h3 style=\"font-weight:bold; font-size:9pt;\">"
+				+ "<span style=\"color:blue; text-decoration:underline; cursor:pointer;\""
+				+ "loc='https://en.wikipedia.org/wiki/Talk:" + snippets.articleName + "'>[Talk page]</span></h3>";
+				
+		for (var i = 0; i < snippets.content.length; i++) {
+			interestingTalkPageSections += "<p style=\"font-size:8pt;\">..." + snippets.content[i] + "...</p>";
+		}
 	}
 });
 
