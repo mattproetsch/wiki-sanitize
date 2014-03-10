@@ -8,38 +8,37 @@ self.port.on("getEditSummaries", function(interestingPhrases) {
 	var pageHistoryEdits = document.getElementById("pagehistory").querySelectorAll("li");
 
 	try {
-	for (var i = 0; i < pageHistoryEdits.length; i++) {
+		for (var i = 0; i < pageHistoryEdits.length; i++) {
 
-		var td = pageHistoryEdits[i].getElementsByClassName("comment");
+			var td = pageHistoryEdits[i].getElementsByClassName("comment");
 
-		if (td.length == 1 &&
-			// We don't care about autocomments!
-		   (td[0].getElementsByClassName("autocomment").length == 0)) {
-		   	
-		   	var editSummary = td[0].textContent;
+			if (td.length == 1 &&
+				// We don't care about autocomments!
+			   (td[0].getElementsByClassName("autocomment").length == 0)) {
+			   	
+			   	var editSummary = td[0].textContent;
 
-			if (i != 0 && testPhrase(editSummary)) {
-				summaries.push({
-					sum: editSummary,
-					link: pageHistoryEdits[i].getElementsByClassName("mw-history-histlinks")[0].childNodes[1].href
-				});
+				if (i != 0 && testPhrase(editSummary)) {
+					summaries.push({
+						sum: editSummary,
+						link: pageHistoryEdits[i].getElementsByClassName("mw-history-histlinks")[0].childNodes[1].href
+					});
+				}
+				else if (testPhrase(editSummary)) {
+					// This is the current edit and therefore does not have a "cur" link
+					summaries.push({
+						sum: editSummary,
+						link: null
+					});
+				}
+
 			}
-			else if (testPhrase(editSummary) {
-				// This is the current edit and therefore does not have a "cur" link
-				summaries.push({
-					sum: editSummary,
-					link: null
-				});
-			}
-
 		}
-	}
 
-	self.port.emit("editSummariesReady", summaries);
-
+		self.port.emit("editSummariesReady", summaries);
 
 	} catch (e) {
-		self.port.emit("editSummariesError", e.message);
+		self.port.emit("editSummariesError", e.message + ": " + e.lineNumber);
 	}
 
 });
@@ -48,7 +47,8 @@ self.port.on("getEditSummaries", function(interestingPhrases) {
 var testPhrase = function(editSummary) {
 
 	for (var i = 0; i < phrases.length; i++) {
-		if (phrases[i].re.test(editSummary)) {
+		var regex = new RegExp(phrases[i].re);
+		if (regex.test(editSummary)) {
 			return true;
 		}
 	}
