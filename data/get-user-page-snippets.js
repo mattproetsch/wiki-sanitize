@@ -8,7 +8,7 @@ self.port.on("getUserPageSnippets", function(interestingPhrases) {
 		
 		for (var i = 0; i < interestingPhrases.length; i++) {
 
-			var regex = new RegExp(interestingPhrases[i].re);
+			var regex = new RegExp(interestingPhrases[i].re, "mi");
 
 			if (regex.test(userPageContent)) {
 				var reCtx = buildContextREFrom(interestingPhrases[i].re);
@@ -30,5 +30,5 @@ var buildContextREFrom = function(re) {
 	ctxREStr += re;
 	ctxREStr += "([\\s]+[\\w]+){0,4}";
 	
-	return new RegExp(ctxREStr, "i");
+	return new RegExp(ctxREStr, "mi");
 }
