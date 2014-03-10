@@ -47,7 +47,7 @@ self.port.on("getEditSummaries", function(interestingPhrases) {
 var testPhrase = function(editSummary) {
 
 	for (var i = 0; i < phrases.length; i++) {
-		var regex = new RegExp(phrases[i].re);
+		var regex = new RegExp(phrases[i].re, "mi");
 		if (regex.test(editSummary)) {
 			return true;
 		}
