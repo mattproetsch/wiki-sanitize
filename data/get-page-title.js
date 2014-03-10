@@ -8,7 +8,7 @@ self.port.on("resolvePageTitle", function() {
 		// Return the first captured subgroup
 		self.port.emit("titleResolved", title[1]);
 	} catch (e) {
-		window.alert("Title not resolved");
+		window.alert("Title not resolved: " + e.message);
 	}
 });
 

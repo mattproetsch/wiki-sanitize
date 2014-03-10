@@ -39,7 +39,7 @@ self.port.on("getEditSummaries", function(interestingPhrases) {
 
 
 	} catch (e) {
-		self.port.emit("editSummariesError", e);
+		self.port.emit("editSummariesError", e.message);
 	}
 
 });
