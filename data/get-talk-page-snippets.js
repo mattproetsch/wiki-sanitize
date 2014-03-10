@@ -1,13 +1,21 @@
 self.port.on("getTalkPageSnippets", function(interestingPhrases) {
-	var snippets = {
-		
-	};
-
+	
+	var snippets = [];
+	
+	
 	// Like we do with get-user-page-snippets.js, we will go section-by-section
 	// and return the targeted keyword along with its context
+	
+	var talkPageContent = document.getElementById("bodyContent");
 
 	try {
 
+		for (var i = 0; i < interestingPhrases.length; i++) {
+			if (interestingPhrases[i].re.test(talkPageContent)) {
+				var re = buildContextREFrom(interestingPhrases[i].re);
+				snippets.push(re.exec(talkPageContent)[0]);
+			}
+		}
 		// ...extract some snippets and put them in the snippets var...
 
 		self.port.emit("talkPageSnippetsReady", snippets);
@@ -15,3 +23,13 @@ self.port.on("getTalkPageSnippets", function(interestingPhrases) {
 		self.port.emit("talkPageSnippetsError", e);
 	}
 });
+
+
+// Given an RE of form "/[REGEX_MEAT]/gi", returns a regex matching the context of a match to REGEX_MEAT
+var buildContextREFrom = function(re) {
+	var ctxREStr = "([\\w]+[\\s]+){0,4}";
+	ctxREStr += re.toString().substr(1, re.toString().length-4);
+	ctxREStr += "([\\s]+[\\w]+){0,4}";
+	
+	return new RegExp(ctxREStr, "i");
+}
